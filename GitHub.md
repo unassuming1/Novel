@@ -1,10 +1,8 @@
-REPOSITORY_URL: https://github.com/Jessybrenens/WritingMasterclass
-PERSONAL_ACCESS_TOKEN: [PERSONAL_ACCESS_TOKEN]
+# GitHub Usage Guidelines for Novel Creation
 
-git clone https://[PERSONAL_ACCESS_TOKEN]@[REPOSITORY_URL without https://]
-
-git config --global user.email "manus@example.com"
-git config --global user.name "Manus AI"
+## Repository Setup
+git config --global user.email "your.email@example.com"
+git config --global user.name "Your Name"
 
 ls -la [repository directory]
 
@@ -25,6 +23,7 @@ Create all planning documents in /planning directory
 Commit each document separately with descriptive messages
 Update PROGRESS.md after each milestone
 
+## Development Process
 Foundation Building (15% of process)
 Structural Development (25% of process)
 Content Creation (40% of process)
@@ -67,6 +66,7 @@ git add .
 git commit -m "[FINAL] Complete [TITLE] narrative"
 git push origin main
 
+## Commit Guidelines
 Commit after:
 - Completing planning documents
 - Drafting chapters
@@ -81,11 +81,7 @@ Commit after:
 - Another specific detail about the changes made
 - Any challenges addressed or decisions made
 
-Authentication issues:
-Verify Personal Access Token
-Ensure token has appropriate permissions
-Try HTTPS URL format with embedded token
-
+## Troubleshooting
 Merge conflicts:
 git pull origin main
 Resolve conflicts by editing files
@@ -97,7 +93,7 @@ Verify internet connectivity
 Try again after brief pause
 Save work locally and attempt push later
 
-Deliver as:
+## Deliverables
 Individual chapter files in /final/ directory
 Complete manuscript as [TITLE].md in repository root
 Final word count and completion report in COMPLETION.md
