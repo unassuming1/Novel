@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grass Crown: Idle Game</title>
+    <style>
+        /* Base styles to ensure the page is visible immediately */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #d4af37;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading">
+        <h1>The Grass Crown: Idle Game</h1>
+        <p>Loading the silver mines...</p>
+        <div class="spinner"></div>
+    </div>
+
+    <div id="game-container" style="display: none;">
+        <!-- Header Section -->
+        <header id="game-header">
+            <h1>The Grass Crown: Idle Game</h1>
+            <div id="resource-display">
+                <!-- Resource counters will be dynamically inserted here -->
+            </div>
+        </header>
+
+        <!-- Main Game Area -->
+        <main id="game-main">
+            <!-- Left Panel: Mine View -->
+            <section id="mine-view">
+                <div id="mine-background"></div>
+                <div id="mine-interactive-area"></div>
+                <div id="mine-click-area"></div>
+            </section>
+
+            <!-- Center Panel: Main Game Interface -->
+            <section id="game-interface">
+                <div id="narrative-panel">
+                    <h3 id="narrative-title">Welcome to the Mines</h3>
+                    <div id="narrative-content">
+                        <p>You arrive at the silver mine, shackled and exhausted from the journey. The overseer assigns you to the upper tunnels - the easiest work, but also the least productive.</p>
+                        <p>"Don't die in your first week," he grunts. "It's a waste of good chains."</p>
+                    </div>
+                    <div id="narrative-image"></div>
+                </div>
+                <div id="current-activity"></div>
+                <div id="progress-indicators"></div>
+                <div id="helper-display">
+                    <p>No helpers yet</p>
+                </div>
+            </section>
+
+            <!-- Right Panel: Tabs for different sections -->
+            <section id="game-tabs">
+                <div id="tab-buttons">
+                    <button class="tab-button active" data-tab="upgrades">Upgrades</button>
+                    <button class="tab-button" data-tab="news">News</button>
+                    <button class="tab-button" data-tab="characters">Characters</button>
+                    <button class="tab-button" data-tab="journal">Journal</button>
+                </div>
+                
+                <div id="tab-content">
+                    <!-- Upgrades Tab -->
+                    <div id="upgrades-tab" class="tab-panel active">
+                        <h2>Upgrades</h2>
+                        <div id="available-upgrades"></div>
+                        
+                        <h3>Mine Automation</h3>
+                        <div id="automation-upgrades">
+                            <div class="upgrade">
+                                <div class="upgrade-header">
+                                    <span class="upgrade-name">Mine Level</span>
+                                    <span class="upgrade-cost" id="mine-level-cost">50 Silver</span>
+                                </div>
+                                <div class="upgrade-description">
+                                    Upgrade your mine to increase silver production.
+                                    Current level: <span id="mine-level">1</span>
+                                </div>
+                                <button class="upgrade-button" id="upgrade-mine-button">Upgrade Mine</button>
+                            </div>
+                            
+                            <div class="upgrade">
+                                <div class="upgrade-header">
+                                    <span class="upgrade-name">Silver Automation</span>
+                                    <span class="upgrade-cost" id="silver-automation-cost">100 Silver</span>
+                                </div>
+                                <div class="upgrade-description">
+                                    Improve your silver mining efficiency.
+                                    Current level: <span id="silver-automation-level">1</span>
+                                </div>
+                                <button class="upgrade-button" id="upgrade-silver-button">Upgrade</button>
+                            </div>
+                            
+                            <div class="upgrade">
+                                <div class="upgrade-header">
+                                    <span class="upgrade-name">Food Gathering</span>
+                                    <span class="upgrade-cost" id="food-automation-cost">150 Silver</span>
+                                </div>
+                                <div class="upgrade-description">
+                                    Improve your food gathering efficiency.
+                                    Current level: <span id="food-automation-level">0</span>
+                                </div>
+                                <button class="upgrade-button" id="upgrade-food-button">Upgrade</button>
+                            </div>
+                            
+                            <div class="upgrade">
+                                <div class="upgrade-header">
+                                    <span class="upgrade-name">Water Collection</span>
+                                    <span class="upgrade-cost" id="water-automation-cost">125 Silver</span>
+                                </div>
+                                <div class="upgrade-description">
+                                    Improve your water collection efficiency.
+                                    Current level: <span id="water-automation-level">0</span>
+                                </div>
+                                <button class="upgrade-button" id="upgrade-water-button">Upgrade</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- News Tab -->
+                    <div id="news-tab" class="tab-panel">
+                        <h2>News from the Frontier</h2>
+                        <div id="news-feed"></div>
+                    </div>
+                    
+                    <!-- Characters Tab -->
+                    <div id="characters-tab" class="tab-panel">
+                        <h2>Characters</h2>
+                        <div id="character-list"></div>
+                    </div>
+                    
+                    <!-- Journal Tab -->
+                    <div id="journal-tab" class="tab-panel">
+                        <h2>Journal</h2>
+                        <div id="journal-entries"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer Section -->
+        <footer id="game-footer">
+            <div id="status-messages"></div>
+            <div id="game-controls">
+                <button id="save-button">Save Game</button>
+                <button id="options-button">Options</button>
+            </div>
+        </footer>
+
+        <!-- Modal Dialogs -->
+        <div id="modal-container" class="hidden">
+            <div id="modal-content"></div>
+        </div>
+
+        <!-- Notification Area -->
+        <div id="notification-area"></div>
+    </div>
+
+    <!-- Bundled Game Script -->
+    <script src="game-bundle.js"></script>
+    <script>
+        // Initialize game when page loads
+        window.addEventListener('load', function() {
+            // Hide loading screen and show game
+            setTimeout(function() {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('game-container').style.display = 'block';
+                
+                // Initialize game
+                Game.init();
+                Game.start();
+                
+                // Set up mine click handler
+                document.getElementById('mine-click-area').addEventListener('click', Game.handleMineClick);
+                
+                // Set up tab switching
+                document.querySelectorAll('.tab-button').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const tabId = this.getAttribute('data-tab');
+                        UI.switchTab(tabId);
+                    });
+                });
+                
+                // Set up upgrade buttons
+                document.getElementById('upgrade-mine-button').addEventListener('click', function() {
+                    Game.upgradeMineLevel();
+                });
+                
+                document.getElementById('upgrade-silver-button').addEventListener('click', function() {
+                    Game.upgradeAutomation('silver');
+                });
+                
+                document.getElementById('upgrade-food-button').addEventListener('click', function() {
+                    Game.upgradeAutomation('food');
+                });
+                
+                document.getElementById('upgrade-water-button').addEventListener('click', function() {
+                    Game.upgradeAutomation('water');
+                });
+                
+                // Set up save button
+                document.getElementById('save-button').addEventListener('click', function() {
+                    SaveSystem.saveGame();
+                    UI.showNotification('Game saved successfully!');
+                });
+                
+                // Set up options button
+                document.getElementById('options-button').addEventListener('click', function() {
+                    UI.showOptionsModal();
+                });
+                
+                // Load saved game if exists
+                SaveSystem.loadGame();
+            }, 1500); // Show loading screen for at least 1.5 seconds
+        });
+    </script>
+</body>
+</html>
