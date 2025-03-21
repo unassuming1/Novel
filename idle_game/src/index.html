@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Silver Mines of Noricum</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Header Section -->
+        <header>
+            <h1>The Silver Mines of Noricum</h1>
+            <div id="day-display">Day <span id="current-day">1</span></div>
+        </header>
+
+        <!-- Main Game Area -->
+        <main>
+            <!-- Resource Panel -->
+            <section id="resource-panel">
+                <h2>Resources</h2>
+                <div class="resource-grid">
+                    <div class="resource" id="silver-resource">
+                        <div class="resource-icon">⛏️</div>
+                        <div class="resource-info">
+                            <div class="resource-name">Silver Ore</div>
+                            <div class="resource-amount"><span id="silver-amount">0</span>/<span id="silver-max">100</span></div>
+                            <div class="resource-rate">+<span id="silver-rate">0.1</span>/s</div>
+                        </div>
+                    </div>
+                    <div class="resource" id="food-resource">
+                        <div class="resource-icon">🍞</div>
+                        <div class="resource-info">
+                            <div class="resource-name">Food</div>
+                            <div class="resource-amount"><span id="food-amount">120</span>/<span id="food-max">120</span></div>
+                            <div class="resource-rate">-<span id="food-rate">0.0167</span>/s</div>
+                        </div>
+                    </div>
+                    <div class="resource" id="water-resource">
+                        <div class="resource-icon">💧</div>
+                        <div class="resource-info">
+                            <div class="resource-name">Water</div>
+                            <div class="resource-amount"><span id="water-amount">240</span>/<span id="water-max">240</span></div>
+                            <div class="resource-rate">-<span id="water-rate">0.0333</span>/s</div>
+                        </div>
+                    </div>
+                    <div class="resource" id="health-resource">
+                        <div class="resource-icon">❤️</div>
+                        <div class="resource-info">
+                            <div class="resource-name">Health</div>
+                            <div class="resource-amount"><span id="health-amount">100</span>/<span id="health-max">100</span></div>
+                            <div class="resource-rate">+<span id="health-rate">0.0167</span>/s</div>
+                        </div>
+                    </div>
+                    <div class="resource" id="tools-resource">
+                        <div class="resource-icon">🔨</div>
+                        <div class="resource-info">
+                            <div class="resource-name">Tool Durability</div>
+                            <div class="resource-amount"><span id="tools-amount">100</span>/<span id="tools-max">100</span></div>
+                            <div class="resource-rate">-<span id="tools-rate">0.0167</span>/s</div>
+                        </div>
+                    </div>
+                    <div class="resource" id="medicine-resource">
+                        <div class="resource-icon">🌿</div>
+                        <div class="resource-info">
+                            <div class="resource-name">Medicine</div>
+                            <div class="resource-amount"><span id="medicine-amount">5</span>/<span id="medicine-max">20</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mining Area -->
+            <section id="mining-area">
+                <h2>Mining Area</h2>
+                <div id="mine-interactive">
+                    <div id="mine-visual">
+                        <div id="mine-background"></div>
+                        <div id="mine-clickable"></div>
+                    </div>
+                    <div id="mining-controls">
+                        <button id="mine-button" class="action-button">Mine Silver (Click)</button>
+                        <div id="mining-status">
+                            <div id="mining-efficiency">Efficiency: <span id="efficiency-value">100</span>%</div>
+                            <div id="mining-stamina">Stamina: <span id="stamina-value">20</span>/20</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Narrative Panel -->
+            <section id="narrative-panel">
+                <h2>News & Events</h2>
+                <div id="narrative-content">
+                    <div id="current-event">
+                        <h3 id="event-title">Welcome to the Silver Mines</h3>
+                        <p id="event-description">You have been assigned to the silver mines of Noricum, a province just south of the Danube frontier. As a slave captured from a tribal village beyond the river, you must work to survive while gathering information about the events unfolding along the frontier.</p>
+                    </div>
+                    <div id="event-choices">
+                        <button class="choice-button" id="choice-1">Begin your work in the mines</button>
+                    </div>
+                </div>
+                <div id="event-log">
+                    <h3>Recent Events</h3>
+                    <ul id="log-entries">
+                        <li class="log-entry">You have arrived at the silver mines of Noricum.</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <!-- Game Controls -->
+        <aside id="game-controls">
+            <section id="actions-panel">
+                <h2>Actions</h2>
+                <div class="action-buttons">
+                    <button class="action-button" id="eat-button">Eat (1 Food)</button>
+                    <button class="action-button" id="drink-button">Drink (2 Water)</button>
+                    <button class="action-button" id="rest-button">Rest (Stop Mining)</button>
+                    <button class="action-button" id="repair-button">Repair Tools (10 Silver)</button>
+                </div>
+            </section>
+
+            <section id="upgrades-panel">
+                <h2>Upgrades</h2>
+                <div class="upgrade-list">
+                    <div class="upgrade-item" id="tool-upgrade">
+                        <div class="upgrade-info">
+                            <div class="upgrade-name">Better Tools</div>
+                            <div class="upgrade-description">Improve mining efficiency by 50%</div>
+                            <div class="upgrade-cost">Cost: <span id="tool-upgrade-cost">100</span> Silver</div>
+                        </div>
+                        <button class="upgrade-button" id="buy-tool-upgrade">Buy</button>
+                    </div>
+                    <div class="upgrade-item" id="quarters-upgrade">
+                        <div class="upgrade-info">
+                            <div class="upgrade-name">Better Quarters</div>
+                            <div class="upgrade-description">Improve rest quality and health regeneration</div>
+                            <div class="upgrade-cost">Cost: <span id="quarters-upgrade-cost">200</span> Silver</div>
+                        </div>
+                        <button class="upgrade-button" id="buy-quarters-upgrade">Buy</button>
+                    </div>
+                    <div class="upgrade-item" id="storage-upgrade">
+                        <div class="upgrade-info">
+                            <div class="upgrade-name">Storage Expansion</div>
+                            <div class="upgrade-description">Increase resource storage capacity</div>
+                            <div class="upgrade-cost">Cost: <span id="storage-upgrade-cost">150</span> Silver</div>
+                        </div>
+                        <button class="upgrade-button" id="buy-storage-upgrade">Buy</button>
+                    </div>
+                </div>
+            </section>
+        </aside>
+
+        <!-- Character Panel -->
+        <aside id="character-panel">
+            <h2>Character</h2>
+            <div id="character-info">
+                <div id="character-status">
+                    <div class="status-item">Status: <span id="status-value">Mining</span></div>
+                    <div class="status-item">Shift: <span id="shift-value">Day</span></div>
+                </div>
+                <div id="character-skills">
+                    <h3>Skills</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">Mining</div>
+                        <div class="skill-level">Level <span id="mining-level">1</span></div>
+                        <div class="skill-progress">
+                            <div class="progress-bar" id="mining-progress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">Roman Knowledge</div>
+                        <div class="skill-level">Level <span id="roman-level">1</span></div>
+                        <div class="skill-progress">
+                            <div class="progress-bar" id="roman-progress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">Tribal Knowledge</div>
+                        <div class="skill-level">Level <span id="tribal-level">1</span></div>
+                        <div class="skill-progress">
+                            <div class="progress-bar" id="tribal-progress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">Medical Knowledge</div>
+                        <div class="skill-level">Level <span id="medical-level">1</span></div>
+                        <div class="skill-progress">
+                            <div class="progress-bar" id="medical-progress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="character-relationships">
+                    <h3>Relationships</h3>
+                    <div class="relationship-item">
+                        <div class="relationship-name">Guards</div>
+                        <div class="relationship-value"><span id="guard-favor">50</span>/100</div>
+                        <div class="relationship-progress">
+                            <div class="progress-bar" id="guard-progress" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="relationship-item">
+                        <div class="relationship-name">Fellow Slaves</div>
+                        <div class="relationship-value"><span id="slave-favor">50</span>/100</div>
+                        <div class="relationship-progress">
+                            <div class="progress-bar" id="slave-progress" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="relationship-item">
+                        <div class="relationship-name">Administrators</div>
+                        <div class="relationship-value"><span id="admin-favor">25</span>/100</div>
+                        <div class="relationship-progress">
+                            <div class="progress-bar" id="admin-progress" style="width: 25%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Game Modals -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title">Event Title</h2>
+            <p id="modal-description">Event description goes here.</p>
+            <div id="modal-choices">
+                <!-- Choices will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/resources.js"></script>
+    <script src="js/narrative.js"></script>
+    <script src="js/upgrades.js"></script>
+    <script src="js/events.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
