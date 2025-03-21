@@ -1,0 +1,48 @@
+{
+  "characters": [
+    {
+      "id": "player",
+      "name": "Mine Slave",
+      "description": "A slave working in the silver mines, hearing distant tales of Rome's politics and wars.",
+      "stats": {
+        "strength": 5,
+        "endurance": 5,
+        "intelligence": 5,
+        "charisma": 5
+      }
+    },
+    {
+      "id": "overseer",
+      "name": "Mine Overseer",
+      "description": "A harsh taskmaster who ensures quotas are met. He occasionally shares news from Rome.",
+      "stats": {
+        "strength": 7,
+        "endurance": 6,
+        "intelligence": 6,
+        "charisma": 4
+      }
+    },
+    {
+      "id": "merchant",
+      "name": "Traveling Merchant",
+      "description": "Visits the mines to trade goods. Brings news and rumors from across the Republic.",
+      "stats": {
+        "strength": 4,
+        "endurance": 5,
+        "intelligence": 8,
+        "charisma": 7
+      }
+    },
+    {
+      "id": "sulla",
+      "name": "Lucius Cornelius Sulla",
+      "description": "A Roman general and politician known for his military prowess and ambition. Recipient of the Grass Crown.",
+      "stats": {
+        "strength": 8,
+        "endurance": 7,
+        "intelligence": 9,
+        "charisma": 8
+      }
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "story": [
+    {
+      "id": 1,
+      "title": "Rumors from Rome",
+      "content": "Whispers among the slaves speak of a general who has been granted special honors by the Senate. They say he saved an entire legion from certain death.",
+      "unlockCondition": { "resource": "silver", "amount": 50 }
+    },
+    {
+      "id": 2,
+      "title": "The Grass Crown",
+      "content": "A merchant visiting the mines mentioned that the general was awarded the Grass Crown, the highest military decoration. It's woven from grasses and wildflowers collected from the battlefield where he saved his men.",
+      "unlockCondition": { "resource": "silver", "amount": 200 }
+    },
+    {
+      "id": 3,
+      "title": "A Name Emerges",
+      "content": "The general's name is Lucius Cornelius Sulla. The guards speak of him with respect, saying he rose from modest beginnings to great military success.",
+      "unlockCondition": { "resource": "silver", "amount": 500 }
+    },
+    {
+      "id": 4,
+      "title": "Political Ambitions",
+      "content": "News arrives that Sulla has entered politics in Rome. Some say he displays his Grass Crown prominently, a reminder of his military glory as he seeks civil power.",
+      "unlockCondition": { "resource": "silver", "amount": 1000 }
+    },
+    {
+      "id": 5,
+      "title": "Conflict with Marius",
+      "content": "The overseer mentioned a growing rivalry between Sulla and another general named Marius. Both men seek glory and power, and Rome may not be big enough for both of them.",
+      "unlockCondition": { "resource": "silver", "amount": 2000 }
+    },
+    {
+      "id": 6,
+      "title": "War Against Mithridates",
+      "content": "Sulla has been given command of the war against King Mithridates in the East. This campaign could bring him enormous wealth and power if successful.",
+      "unlockCondition": { "resource": "silver", "amount": 5000 }
+    },
+    {
+      "id": 7,
+      "title": "Political Betrayal",
+      "content": "Shocking news! While Sulla prepared his army, his enemies in Rome stripped him of his command and gave it to Marius. The guards say Sulla was furious.",
+      "unlockCondition": { "resource": "silver", "amount": 10000 }
+    },
+    {
+      "id": 8,
+      "title": "March on Rome",
+      "content": "Unprecedented events unfold! Sulla has marched his legions on Rome itself - the first Roman general to turn his army against the Republic. He wears his Grass Crown as he leads his men into the city.",
+      "unlockCondition": { "resource": "silver", "amount": 20000 }
+    },
+    {
+      "id": 9,
+      "title": "Dictator of Rome",
+      "content": "Sulla has been named Dictator of Rome with unlimited power to reform the Republic. The mine administrator says production must increase to pay for his new regime.",
+      "unlockCondition": { "resource": "silver", "amount": 50000 }
+    },
+    {
+      "id": 10,
+      "title": "The Proscriptions",
+      "content": "Dark times have fallen. Sulla has posted lists of 'enemies of the state' who can be killed on sight, their property seized. Many wealthy Romans have been executed, their assets claimed for the state treasury.",
+      "unlockCondition": { "resource": "silver", "amount": 100000 }
+    },
+    {
+      "id": 11,
+      "title": "Constitutional Reforms",
+      "content": "Sulla is using his power to reform Rome's government, strengthening the Senate and limiting the power of the common people. He claims he's saving the Republic from itself.",
+      "unlockCondition": { "resource": "silver", "amount": 200000 }
+    },
+    {
+      "id": 12,
+      "title": "Unexpected Retirement",
+      "content": "Astonishing news! After achieving absolute power, Sulla has voluntarily stepped down as Dictator and retired to his country estate. He still wears his Grass Crown at public appearances.",
+      "unlockCondition": { "resource": "silver", "amount": 500000 }
+    },
+    {
+      "id": 13,
+      "title": "Death of a Dictator",
+      "content": "Word has reached the mines that Sulla has died. They say he requested that his epitaph read: 'No friend ever served me, and no enemy ever wronged me, whom I have not repaid in full.'",
+      "unlockCondition": { "resource": "silver", "amount": 1000000 }
+    },
+    {
+      "id": 14,
+      "title": "Legacy of the Grass Crown",
+      "content": "As you toil in the mines, you reflect on Sulla's rise and fall. From a simple grass crown on the battlefield to absolute power and back to private life. Perhaps there's a lesson there about power, ambition, and the choices we make with what little freedom we have.",
+      "unlockCondition": { "resource": "silver", "amount": 2000000 }
+    }
+  ]
+}

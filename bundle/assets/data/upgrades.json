@@ -1,0 +1,124 @@
+{
+  "upgrades": [
+    {
+      "id": "better_pickaxe",
+      "name": "Better Pickaxe",
+      "description": "A stronger pickaxe that increases silver mining efficiency.",
+      "cost": { "resource": "silver", "amount": 100 },
+      "effect": { "resource": "silver", "multiplier": 1.5 },
+      "prerequisites": []
+    },
+    {
+      "id": "water_flask",
+      "name": "Water Flask",
+      "description": "A personal water flask that increases your water gathering efficiency.",
+      "cost": { "resource": "silver", "amount": 150 },
+      "effect": { "resource": "water", "multiplier": 1.5 },
+      "prerequisites": []
+    },
+    {
+      "id": "food_pouch",
+      "name": "Food Pouch",
+      "description": "A pouch to store food, increasing your food gathering efficiency.",
+      "cost": { "resource": "silver", "amount": 200 },
+      "effect": { "resource": "food", "multiplier": 1.5 },
+      "prerequisites": []
+    },
+    {
+      "id": "tool_belt",
+      "name": "Tool Belt",
+      "description": "A belt to carry your tools, increasing tool production.",
+      "cost": { "resource": "silver", "amount": 300 },
+      "effect": { "resource": "tools", "multiplier": 1.5 },
+      "prerequisites": ["better_pickaxe"]
+    },
+    {
+      "id": "mine_map",
+      "name": "Mine Map",
+      "description": "A crude map of the mine tunnels, increasing all resource gathering.",
+      "cost": { "resource": "silver", "amount": 500 },
+      "effect": { "resource": "all", "multiplier": 1.2 },
+      "prerequisites": ["tool_belt"]
+    },
+    {
+      "id": "literacy",
+      "name": "Basic Literacy",
+      "description": "Learn to read basic Latin, increasing knowledge gain.",
+      "cost": { "resource": "silver", "amount": 750 },
+      "effect": { "resource": "knowledge", "multiplier": 2 },
+      "prerequisites": []
+    },
+    {
+      "id": "favor_token",
+      "name": "Overseer's Favor Token",
+      "description": "A token showing the overseer's favor, increasing favor gain.",
+      "cost": { "resource": "silver", "amount": 1000 },
+      "effect": { "resource": "favor", "multiplier": 2 },
+      "prerequisites": []
+    },
+    {
+      "id": "health_herbs",
+      "name": "Medicinal Herbs",
+      "description": "Herbs with healing properties, increasing health regeneration.",
+      "cost": { "resource": "silver", "amount": 1500 },
+      "effect": { "resource": "health", "multiplier": 1.5 },
+      "prerequisites": []
+    },
+    {
+      "id": "silver_vein",
+      "name": "Rich Silver Vein",
+      "description": "Discover a rich vein of silver, greatly increasing silver production.",
+      "cost": { "resource": "silver", "amount": 3000 },
+      "effect": { "resource": "silver", "multiplier": 3 },
+      "prerequisites": ["mine_map"]
+    },
+    {
+      "id": "water_well",
+      "name": "Underground Water Well",
+      "description": "Access to an underground water source, greatly increasing water gathering.",
+      "cost": { "resource": "silver", "amount": 5000 },
+      "effect": { "resource": "water", "multiplier": 3 },
+      "prerequisites": ["mine_map"]
+    },
+    {
+      "id": "food_storage",
+      "name": "Hidden Food Storage",
+      "description": "A secret place to store food, greatly increasing food gathering.",
+      "cost": { "resource": "silver", "amount": 7500 },
+      "effect": { "resource": "food", "multiplier": 3 },
+      "prerequisites": ["mine_map"]
+    },
+    {
+      "id": "tool_workshop",
+      "name": "Secret Tool Workshop",
+      "description": "A hidden place to craft better tools, greatly increasing tool production.",
+      "cost": { "resource": "silver", "amount": 10000 },
+      "effect": { "resource": "tools", "multiplier": 3 },
+      "prerequisites": ["mine_map"]
+    },
+    {
+      "id": "scroll_collection",
+      "name": "Scroll Collection",
+      "description": "A collection of scrolls about Rome and its politics, greatly increasing knowledge gain.",
+      "cost": { "resource": "silver", "amount": 15000 },
+      "effect": { "resource": "knowledge", "multiplier": 3 },
+      "prerequisites": ["literacy"]
+    },
+    {
+      "id": "overseer_bribe",
+      "name": "Overseer Bribe",
+      "description": "Regular bribes to the overseer, greatly increasing favor gain.",
+      "cost": { "resource": "silver", "amount": 25000 },
+      "effect": { "resource": "favor", "multiplier": 3 },
+      "prerequisites": ["favor_token"]
+    },
+    {
+      "id": "medical_knowledge",
+      "name": "Medical Knowledge",
+      "description": "Learn basic medical practices, greatly increasing health regeneration.",
+      "cost": { "resource": "silver", "amount": 40000 },
+      "effect": { "resource": "health", "multiplier": 3 },
+      "prerequisites": ["health_herbs", "literacy"]
+    }
+  ]
+}
