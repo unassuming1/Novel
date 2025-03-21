@@ -1,0 +1,158 @@
+{
+  "upgrades": [
+    {
+      "id": "basic_tools",
+      "name": "Basic Mining Tools",
+      "description": "Improve your mining tools to increase silver production.",
+      "cost": { "silver": 50 },
+      "requirements": {},
+      "effects": {
+        "clickPower": 2
+      }
+    },
+    {
+      "id": "water_bucket",
+      "name": "Water Bucket",
+      "description": "A larger bucket to store more water.",
+      "cost": { "silver": 100 },
+      "requirements": { "upgrades": ["basic_tools"] },
+      "effects": {
+        "resources": { "water": 5 }
+      }
+    },
+    {
+      "id": "food_pouch",
+      "name": "Food Pouch",
+      "description": "A pouch to store more food rations.",
+      "cost": { "silver": 150 },
+      "requirements": { "upgrades": ["basic_tools"] },
+      "effects": {
+        "resources": { "food": 5 }
+      }
+    },
+    {
+      "id": "mining_technique",
+      "name": "Improved Mining Technique",
+      "description": "Learn better mining techniques from other slaves.",
+      "cost": { "silver": 200, "knowledge": 1 },
+      "requirements": { "upgrades": ["basic_tools"] },
+      "effects": {
+        "clickPower": 3,
+        "autoMine": 0.1
+      }
+    },
+    {
+      "id": "helper_slave",
+      "name": "Helper Slave",
+      "description": "Convince another slave to help you mine.",
+      "cost": { "silver": 300, "food": 10, "favor": 1 },
+      "requirements": { "upgrades": ["mining_technique"] },
+      "effects": {
+        "autoMine": 0.5
+      }
+    },
+    {
+      "id": "iron_pick",
+      "name": "Iron Pickaxe",
+      "description": "A stronger pickaxe that breaks through rock more efficiently.",
+      "cost": { "silver": 500, "tools": 2 },
+      "requirements": { "upgrades": ["mining_technique"] },
+      "effects": {
+        "clickPower": 5
+      }
+    },
+    {
+      "id": "water_source",
+      "name": "Access to Water Source",
+      "description": "Find a small underground water source in the mine.",
+      "cost": { "silver": 750, "knowledge": 3 },
+      "requirements": { "upgrades": ["water_bucket"] },
+      "effects": {
+        "resourceRates": { "water": 0.1 }
+      }
+    },
+    {
+      "id": "food_storage",
+      "name": "Hidden Food Storage",
+      "description": "Create a secret place to store more food safely.",
+      "cost": { "silver": 1000, "tools": 3 },
+      "requirements": { "upgrades": ["food_pouch"] },
+      "effects": {
+        "resources": { "food": 15 }
+      }
+    },
+    {
+      "id": "mining_team",
+      "name": "Mining Team",
+      "description": "Organize a small team of slaves to mine together.",
+      "cost": { "silver": 2000, "food": 30, "water": 20, "favor": 3 },
+      "requirements": { "upgrades": ["helper_slave"] },
+      "effects": {
+        "autoMine": 2
+      }
+    },
+    {
+      "id": "overseer_favor",
+      "name": "Overseer's Favor",
+      "description": "Gain the favor of a mine overseer for better treatment.",
+      "cost": { "silver": 3000, "favor": 5 },
+      "requirements": { "upgrades": ["mining_team"] },
+      "effects": {
+        "resourceRates": { "food": 0.05, "water": 0.05 },
+        "unlocks": ["overseer_character"]
+      }
+    },
+    {
+      "id": "steel_pick",
+      "name": "Steel Pickaxe",
+      "description": "A premium quality pickaxe that greatly increases mining efficiency.",
+      "cost": { "silver": 5000, "tools": 5 },
+      "requirements": { "upgrades": ["iron_pick"] },
+      "effects": {
+        "clickPower": 10
+      }
+    },
+    {
+      "id": "messenger_contact",
+      "name": "Messenger Contact",
+      "description": "Establish contact with a messenger who brings news from the frontier.",
+      "cost": { "silver": 7500, "favor": 8 },
+      "requirements": { "upgrades": ["overseer_favor"] },
+      "effects": {
+        "unlocks": ["messenger_character", "news_system"]
+      }
+    },
+    {
+      "id": "medical_knowledge",
+      "name": "Basic Medical Knowledge",
+      "description": "Learn how to treat minor injuries and illnesses.",
+      "cost": { "silver": 10000, "knowledge": 10 },
+      "requirements": { "upgrades": ["messenger_contact"] },
+      "effects": {
+        "resourceRates": { "health": 0.1 }
+      }
+    },
+    {
+      "id": "silver_stash",
+      "name": "Hidden Silver Stash",
+      "description": "Create a secret place to hide some of your silver from inspections.",
+      "cost": { "silver": 15000, "tools": 8 },
+      "requirements": { "upgrades": ["steel_pick"] },
+      "effects": {
+        "silverStorage": 5000
+      }
+    },
+    {
+      "id": "master_miner",
+      "name": "Master Miner Status",
+      "description": "Your mining skills are recognized, granting you special privileges.",
+      "cost": { "silver": 25000, "knowledge": 15, "favor": 10 },
+      "requirements": { "upgrades": ["steel_pick", "medical_knowledge"] },
+      "effects": {
+        "clickPower": 20,
+        "autoMine": 5,
+        "resourceRates": { "food": 0.1, "water": 0.1 }
+      }
+    }
+  ]
+}

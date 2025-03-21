@@ -1,0 +1,253 @@
+/* Animations for the game */
+
+/* Resource collection animation */
+@keyframes resourcePop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.resource-pop {
+    animation: resourcePop 0.3s ease-out;
+}
+
+/* Mining animation */
+@keyframes miningSwing {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-20deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(20deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.mining-tool {
+    transform-origin: bottom center;
+    animation: miningSwing 0.8s infinite;
+}
+
+/* Notification slide in/out */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.slide-in-right {
+    animation: slideInRight 0.3s forwards;
+}
+
+.slide-out-right {
+    animation: slideOutRight 0.3s forwards;
+}
+
+/* Pulse animation for important elements */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(218, 165, 32, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(218, 165, 32, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(218, 165, 32, 0);
+    }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Shake animation for errors */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s forwards;
+}
+
+/* Bounce animation for new items */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+.bounce {
+    animation: bounce 1s;
+}
+
+/* Rotate animation */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotate {
+    animation: rotate 2s linear infinite;
+}
+
+/* Progress bar animation */
+@keyframes progressFill {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+.progress-animate {
+    animation: progressFill var(--duration, 3s) linear forwards;
+}
+
+/* Floating text animation for resource gains */
+@keyframes floatUp {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+}
+
+.float-text {
+    position: absolute;
+    animation: floatUp 1.5s forwards;
+    pointer-events: none;
+}
+
+/* Glow effect for special items */
+@keyframes glow {
+    0% {
+        filter: drop-shadow(0 0 2px rgba(218, 165, 32, 0.7));
+    }
+    50% {
+        filter: drop-shadow(0 0 5px rgba(218, 165, 32, 0.9));
+    }
+    100% {
+        filter: drop-shadow(0 0 2px rgba(218, 165, 32, 0.7));
+    }
+}
+
+.glow {
+    animation: glow 2s infinite;
+}
+
+/* Modal animations */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#modal-content {
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+/* Tab switching animation */
+@keyframes tabFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.tab-panel.active {
+    animation: tabFadeIn 0.3s forwards;
+}
+
+/* Character portrait hover effect */
+.character-portrait {
+    transition: transform 0.3s ease;
+}
+
+.character-portrait:hover {
+    transform: scale(1.1);
+}
+
+/* Button hover animation */
+button {
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+button:active:not(:disabled) {
+    transform: translateY(1px);
+}

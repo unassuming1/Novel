@@ -1,93 +1,42 @@
-# Novel Creation Checklist
+# Idle Game Development Based on The Grass Crown Story
 
-## Project Setup
-- [x] Initialize GitHub repository
-- [x] Create project directory structure
-- [x] Add Prompt.md and Writing.md to repository
-- [x] Create PROGRESS.md file
-- [ ] Commit project structure to repository
-- [ ] Push changes to GitHub
+## Repository Setup
+- [x] Clone the repository
+- [x] Checkout the idle-game-development branch
 
-## Phase 1: Foundation Building (15%)
-- [x] Create World.md with:
-  - [x] Setting analysis (historical, cultural, physical elements)
-  - [x] Central location purpose and transformation
-  - [x] Societal structures and systems
-  - [x] Sensory details (sights, sounds, smells, textures)
-  - [x] Thematic integration with setting
-  - [x] Metaphorical significance of setting
-  - [x] Emotional resonance of environments
-- [x] Create Characters.md with:
-  - [x] POV character profiles
-  - [x] Secondary character profiles
-  - [x] Character relationship map
-  - [x] Voice differentiation strategy
-- [x] Create Conceptual.md with:
-  - [x] Thematic elements manifestation
-  - [x] Symbolic systems and motifs
-  - [x] Philosophical questions
-  - [x] Emotional journey map
-  - [x] Intended reader experience
-  - [x] Rhetorical devices allocation
-  - [x] Counterargument integration
+## Content Analysis
+- [x] Analyze existing repository content
+- [x] Understand the Grass Crown story narrative and setting
+- [x] Identify key characters and plot elements
 
-## Phase 2: Structural Development (25%)
-- [x] Create Style_Structural_Outline.md with:
-  - [x] Style.md outline
-  - [x] Organization.md outline
-  - [x] Integration between style and structure
-- [x] Create Organization.md with:
-  - [x] Outlining methodology
-  - [x] Chapter structure and sequencing
-  - [x] Scene sequencing with pacing
-  - [x] Tension and release patterns
-  - [x] Information revelation strategy
-  - [x] Foreshadowing and payoff planning
-  - [x] Timeline management
-  - [x] Narrative elements implementation
-  - [x] Opening and closing techniques
-  - [x] Metaphor and analogy development
-- [x] Create Style.md with:
-  - [x] Authorial style analysis
-  - [x] Prose techniques
-  - [x] Literary devices implementation
-  - [x] Dialogue and voice differentiation
-  - [x] Emotional resonance techniques
-  - [x] Setting and atmosphere development
-  - [x] Thematic expression through style
+## Story Content Extraction
+- [ ] Extract key narrative elements for game integration
+- [ ] Organize story progression for idle game advancement
+- [ ] Create a timeline of events to be revealed during gameplay
+- [ ] Identify key character moments to highlight in the game
 
-## Phase 3: Content Creation (40%)
-- [ ] Create chapter outlines for all 15 chapters
-- [ ] Draft Chapter 1: "The Crown of Grass"
-- [ ] Draft Chapter 2: "Foundations of Sand"
-- [ ] Draft Chapter 3: "Letters Home"
-- [ ] Draft Chapter 4: "The River Rises"
-- [ ] Draft Chapter 5: "Invisible Enemy"
-- [ ] Draft Chapter 6: "Desertion"
-- [ ] Draft Chapter 7: "Whispers from Rome"
-- [ ] Draft Chapter 8: "Ice Bridge"
-- [ ] Draft Chapter 9: "The Daughter's Voice"
-- [ ] Draft Chapter 10: "Fire in the Night"
-- [ ] Draft Chapter 11: "The Emperor's Mind"
-- [ ] Draft Chapter 12: "The Healer's Hands"
-- [ ] Draft Chapter 13: "The Weight of the Crown"
-- [ ] Draft Chapter 14: "The Emperor's Farewell"
-- [ ] Draft Chapter 15: "Winter's End"
+## Game Design
+- [ ] Design core idle game mechanics
+- [ ] Create resource collection and management system
+- [ ] Design progression system tied to narrative elements
+- [ ] Plan UI/UX for the web-based game
+- [ ] Create game economy and balance
 
-## Phase 4: Refinement (20%)
-- [ ] Perform consistency check across all chapters
-- [ ] Enhance thematic elements throughout narrative
-- [ ] Refine character arcs and development
-- [ ] Polish prose and dialogue
-- [ ] Strengthen opening and closing of each chapter
-- [ ] Ensure historical accuracy and authenticity
-- [ ] Verify philosophical elements integration
-- [ ] Create final manuscript
-- [ ] Compile novel into requested format
-- [ ] Final proofreading and editing
+## Implementation
+- [ ] Set up basic HTML/CSS/JS structure
+- [ ] Implement core game loop
+- [ ] Create resource management system
+- [ ] Implement progression mechanics
+- [ ] Add narrative elements and story progression
+- [ ] Design and implement UI components
 
-## Final Delivery
-- [ ] Submit completed novel
-- [ ] Provide summary of creative process
-- [ ] Document all sources and references
-- [ ] Confirm completion with user
+## Testing and Deployment
+- [ ] Test game mechanics and balance
+- [ ] Test narrative integration
+- [ ] Deploy the game to GitHub Pages
+- [ ] Final testing and adjustments
+
+## Documentation
+- [ ] Document game mechanics
+- [ ] Create player guide
+- [ ] Update repository documentation

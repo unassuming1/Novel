@@ -1,0 +1,160 @@
+{
+  "storyBeats": [
+    {
+      "id": "introduction",
+      "title": "Arrival at the Mine",
+      "content": "You arrive at the silver mine, shackled and exhausted from the journey. The overseer assigns you to the upper tunnels - the easiest work, but also the least productive. \"Don't die in your first week,\" he grunts. \"It's a waste of good chains.\"",
+      "trigger": { "type": "immediate" }
+    },
+    {
+      "id": "first_silver",
+      "title": "First Silver",
+      "content": "You extract your first pieces of silver ore. Your hands are already blistered, but there's a small sense of accomplishment. A veteran miner notices your technique and shakes his head. \"You'll break your back that way. Here, like this.\" His small advice makes the work slightly more bearable.",
+      "trigger": { "type": "resource", "resource": "silver", "amount": 10 }
+    },
+    {
+      "id": "grass_crown_news",
+      "title": "News from the Frontier",
+      "content": "During the evening meal, you overhear guards talking about a general named Titus Aelius Gallus who has been awarded the grass crown - Rome's highest military honor - for his victory against the Marcomanni tribes. The soldiers speak of him with reverence, though one mutters that the victory came at a terrible cost.",
+      "trigger": { "type": "resource", "resource": "silver", "amount": 100 }
+    },
+    {
+      "id": "overseer_story",
+      "title": "The Overseer's Tale",
+      "content": "The mine overseer, loosened by wine, reveals he once served in the legions under General Titus. \"Strictest commander I ever had,\" he says, \"but fair. He wouldn't ask men to do what he wouldn't do himself. Saved my life at the Danube crossing.\" He falls silent, lost in memory, then barks at everyone to get back to work.",
+      "trigger": { "type": "upgrade", "upgradeId": "overseer_favor" }
+    },
+    {
+      "id": "plague_rumors",
+      "title": "Whispers of Disease",
+      "content": "New slaves arrive at the mine, bringing rumors of a strange sickness spreading through the empire. \"They say it came from the East with returning soldiers,\" one explains. \"Whole villages emptied. They call it the Antonine Plague.\" The overseers order the new arrivals quarantined in the lower tunnels.",
+      "trigger": { "type": "day", "day": 10 }
+    },
+    {
+      "id": "supply_reduction",
+      "title": "Dwindling Supplies",
+      "content": "The regular supply wagon arrives half-empty. The driver explains that military requisitions have priority - General Titus's forces on the frontier need resources to hold back the barbarian tribes. Your food ration is cut by a third. \"Empire's at war,\" shrugs the overseer. \"We all make sacrifices.\"",
+      "trigger": { "type": "day", "day": 15 }
+    },
+    {
+      "id": "political_intrigue",
+      "title": "Political Machinations",
+      "content": "A visiting official brings gossip from Rome. Apparently, a senator named Lucius Priscus is questioning General Titus's victories, calling them \"exaggerated\" and \"costly failures dressed as success.\" The mine administrator seems troubled. \"Politics,\" he spits. \"Priscus wants Titus's command for one of his own puppets.\"",
+      "trigger": { "type": "day", "day": 20 }
+    },
+    {
+      "id": "winter_hardship",
+      "title": "Harsh Winter",
+      "content": "The winter turns brutal. Even deep in the mines, the cold seeps through. You hear that on the frontier, the Danube has frozen solid, allowing Marcomanni raiders to cross directly into Roman territory. General Titus's forces are fighting in waist-deep snow. In the mine, three slaves freeze to death in the outer tunnels overnight.",
+      "trigger": { "type": "day", "day": 30 }
+    },
+    {
+      "id": "plague_arrives",
+      "title": "The Plague Reaches the Mine",
+      "content": "The Antonine Plague arrives with a new shipment of slaves. Within days, a dozen miners show symptoms - high fever, rash, bloody cough. The sick are isolated in an abandoned tunnel, but it's clear containment is failing. The overseer looks grim. \"Same on the frontier,\" he says. \"General Titus lost a third of his men, not to swords but to this invisible enemy.\"",
+      "trigger": { "type": "day", "day": 40 }
+    },
+    {
+      "id": "emperor_frontier",
+      "title": "The Emperor at the Front",
+      "content": "Remarkable news arrives: Emperor Marcus Aurelius himself has traveled to the Danube frontier to support General Titus. \"Never happened in my lifetime,\" marvels an old slave. \"An emperor at the battlefront.\" The guards discuss what this means - some think it shows the dire situation, others believe it demonstrates the Emperor's faith in Titus.",
+      "trigger": { "type": "day", "day": 50 }
+    },
+    {
+      "id": "philosophical_text",
+      "title": "The Emperor's Wisdom",
+      "content": "A slave who serves in the administrator's house smuggles in scraps of parchment - copied fragments from a text the Emperor is writing. \"Meditations,\" he calls them. The philosophical passages speak of enduring hardship, finding inner tranquility amid chaos, and the equality of all men's souls. You hide these treasured words beneath your sleeping mat.",
+      "trigger": { "type": "resource", "resource": "knowledge", "amount": 10 }
+    },
+    {
+      "id": "final_battle",
+      "title": "The Decisive Battle",
+      "content": "Word spreads like wildfire through the mine: General Titus has led a desperate stand against the largest Marcomanni force yet assembled. Against overwhelming odds, the Romans held their position on the frozen Danube. The battle lasted two days, and though casualties were severe, the barbarian alliance has shattered. For the first time in months, there's hope that the frontier will hold.",
+      "trigger": { "type": "day", "day": 60 }
+    },
+    {
+      "id": "emperor_death",
+      "title": "The Emperor's Passing",
+      "content": "Solemn news arrives from the frontier: Emperor Marcus Aurelius has died in camp, with General Titus at his bedside. The empire is in mourning. In the mine, even the overseers seem subdued. Work is halted for one day out of respect - an unprecedented occurrence. Rumors already swirl about the new Emperor Commodus and what his reign will bring.",
+      "trigger": { "type": "day", "day": 70 }
+    },
+    {
+      "id": "new_dawn",
+      "title": "Changing Times",
+      "content": "The first official proclamation from Emperor Commodus arrives at the mine. Policies are changing - military focus shifting away from the frontier, new administrators appointed. The mine overseer who served under Titus is reassigned. Before leaving, he tells you, \"Titus said the grass crown was both his greatest honor and heaviest burden. I never understood until now.\" The empire is entering a new era, for better or worse.",
+      "trigger": { "type": "day", "day": 80 }
+    }
+  ],
+  "quests": [
+    {
+      "id": "veteran_memories",
+      "title": "Veteran's Memories",
+      "description": "The old veteran who served under General Titus seems willing to share stories. Gain his trust to learn more about the frontier wars.",
+      "requirements": { "characters": ["overseer"], "favor": 3 },
+      "rewards": { "knowledge": 5, "favor": 2 },
+      "steps": [
+        { "description": "Bring the veteran extra water rations", "cost": { "water": 5 } },
+        { "description": "Listen to his stories of the Danube campaigns", "time": 2 },
+        { "description": "Find a small token to remind him of his service", "special": "find_token" }
+      ]
+    },
+    {
+      "id": "plague_medicine",
+      "title": "Healing Hands",
+      "description": "With the plague spreading, any medical knowledge is valuable. Learn basic treatments to help yourself and others.",
+      "requirements": { "storyBeats": ["plague_arrives"], "knowledge": 5 },
+      "rewards": { "knowledge": 10, "health": 20, "favor": 5 },
+      "steps": [
+        { "description": "Collect medicinal herbs from around the mine", "time": 3 },
+        { "description": "Learn treatment methods from the mine's medic", "cost": { "silver": 200 } },
+        { "description": "Treat three sick miners", "cost": { "food": 10, "water": 15 } }
+      ]
+    },
+    {
+      "id": "imperial_wisdom",
+      "title": "Words of Marcus Aurelius",
+      "description": "The Emperor's philosophical writings offer both wisdom and comfort in these harsh times.",
+      "requirements": { "storyBeats": ["philosophical_text"], "knowledge": 8 },
+      "rewards": { "knowledge": 15, "health": 10 },
+      "steps": [
+        { "description": "Collect more fragments of the Emperor's writings", "special": "find_writings" },
+        { "description": "Study the philosophical concepts", "time": 5 },
+        { "description": "Apply the stoic principles to your daily work", "special": "practice_stoicism" }
+      ]
+    }
+  ],
+  "randomStoryBits": [
+    {
+      "title": "A Moment of Reflection",
+      "content": "During a brief rest, you notice sunlight filtering through a crack in the ceiling. For just a moment, the harsh reality of the mine fades, and you remember what it was like to be free."
+    },
+    {
+      "title": "Overheard Conversation",
+      "content": "Guards talking nearby mention General Titus's name. \"They say he sleeps in the same conditions as his men,\" one says. \"No special tent or meals.\" The other scoffs, \"That's why soldiers love him and politicians hate him.\""
+    },
+    {
+      "title": "Hidden Message",
+      "content": "You find a message scratched into the mine wall, hidden behind a loose rock: \"Strength is not in the body, but in the spirit. -M\""
+    },
+    {
+      "title": "The Old Slave's Wisdom",
+      "content": "An elderly slave shares his secret for survival: \"Find one beautiful thing each day, no matter how small. A drop of water, a memory, even just a deeper breath. That's how you keep your soul alive.\""
+    },
+    {
+      "title": "Distant Thunder",
+      "content": "The sound of distant thunder reminds you of the artillery used in battle. A former soldier-turned-slave tells you that General Titus was known for his innovative use of catapults in field battles."
+    },
+    {
+      "title": "Silver's Purpose",
+      "content": "As you extract another piece of silver ore, you wonder where it will end up. \"Coins for the legions,\" an older slave tells you. \"The silver we mine today will pay the men fighting under General Titus tomorrow.\""
+    },
+    {
+      "title": "Dreams of the Frontier",
+      "content": "You dream of the Danube frontier - a place you've never seen. In your dream, you stand beside General Titus as he surveys the barbarian lands beyond the river. You wake feeling strangely connected to events so far away."
+    },
+    {
+      "title": "The Grass Crown's Meaning",
+      "content": "A former soldier explains the significance of the grass crown: \"It's made from grasses and wildflowers gathered from the battlefield itself. Only awarded when a commander saves an entire legion from certain destruction. Many generals serve a lifetime without earning it.\""
+    }
+  ]
+}

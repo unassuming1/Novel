@@ -1,0 +1,124 @@
+{
+  "characters": [
+    {
+      "id": "overseer",
+      "name": "Lucius Severus",
+      "role": "Mine Overseer",
+      "description": "A gruff veteran who once served under General Titus. Despite his harsh exterior, he maintains a sense of fairness unusual for his position.",
+      "portrait": "overseer.png",
+      "relationshipLevel": "Neutral",
+      "dialogues": [
+        {
+          "id": "intro",
+          "text": "Don't expect special treatment, slave. But work hard and follow orders, and you'll survive longer than most.",
+          "requirements": {}
+        },
+        {
+          "id": "military_past",
+          "text": "Yes, I served with General Titus. Ten years on the frontier. The man's a true Roman - strict but fair. He saved my life at the Danube crossing when barbarians ambushed our unit.",
+          "requirements": { "relationshipLevel": "Friendly" }
+        },
+        {
+          "id": "frontier_news",
+          "text": "News from the frontier isn't good. The Marcomanni are pressing hard, and now this plague... Titus is fighting two enemies at once. The Senate doesn't understand what it's like out there.",
+          "requirements": { "relationshipLevel": "Friendly", "storyBeats": ["plague_rumors"] }
+        },
+        {
+          "id": "emperor_visit",
+          "text": "Emperor Marcus Aurelius himself has gone to the frontier. Unprecedented. I served under him too, briefly. A philosopher on the throne... but don't mistake his thoughtfulness for weakness.",
+          "requirements": { "relationshipLevel": "Trusted", "storyBeats": ["emperor_frontier"] }
+        }
+      ]
+    },
+    {
+      "id": "messenger",
+      "name": "Cassius",
+      "role": "Imperial Messenger",
+      "description": "A quick-witted courier who travels between Rome, the frontier, and the provinces. His position gives him access to information from across the empire.",
+      "portrait": "messenger.png",
+      "relationshipLevel": "Neutral",
+      "dialogues": [
+        {
+          "id": "intro",
+          "text": "You're interested in news? Most slaves only care about their next meal. I travel all over - Rome, the frontier, and everywhere between. For a bit of silver, I might share what I hear.",
+          "requirements": {}
+        },
+        {
+          "id": "titus_reputation",
+          "text": "General Titus? His men would die for him. The Senate? Different story. Senator Priscus especially - keeps questioning Titus's victories, calling them 'pyrrhic' and 'wasteful.' Politics is as dangerous as the battlefield.",
+          "requirements": { "relationshipLevel": "Friendly" }
+        },
+        {
+          "id": "plague_spread",
+          "text": "The plague is everywhere now. Started with returning soldiers from the eastern campaigns. I've seen villages where half the people are dead or dying. The frontier camps have it worst - men packed together, perfect for spreading sickness.",
+          "requirements": { "relationshipLevel": "Friendly", "storyBeats": ["plague_arrives"] }
+        },
+        {
+          "id": "emperor_writings",
+          "text": "The Emperor writes constantly - philosophical reflections, they say. I glimpsed him once at the frontier camp, writing by lamplight while generals waited for orders. Strange man, but respected. Some of his writings circulate among the educated.",
+          "requirements": { "relationshipLevel": "Trusted", "storyBeats": ["emperor_frontier"] }
+        }
+      ]
+    },
+    {
+      "id": "veteran_slave",
+      "name": "Demetrius",
+      "role": "Veteran Mine Slave",
+      "description": "An elderly Greek who has survived the mines for over a decade. His knowledge of the mine's operation and survival techniques is unmatched.",
+      "portrait": "veteran_slave.png",
+      "relationshipLevel": "Neutral",
+      "dialogues": [
+        {
+          "id": "intro",
+          "text": "New, are you? Listen carefully if you want to live. Drink when water's offered, even if you're not thirsty. Save half your food ration for later. And never, ever show weakness to the guards.",
+          "requirements": {}
+        },
+        {
+          "id": "survival_tips",
+          "text": "Mining technique matters. Strike at this angle, see? Saves your strength, gets more silver. The overseers don't care how you do it as long as you meet your quota. Work smarter, not harder.",
+          "requirements": { "relationshipLevel": "Friendly" }
+        },
+        {
+          "id": "mine_secrets",
+          "text": "There are hidden places in the mine where you can rest unseen. Small cavities behind loose rocks, abandoned tunnels they've forgotten about. I'll show you some, but keep them secret. They've saved my life during punishments.",
+          "requirements": { "relationshipLevel": "Trusted" }
+        },
+        {
+          "id": "empire_perspective",
+          "text": "I've been here through three emperors now. Hadrian, Antoninus Pius, now Marcus Aurelius. Down here, it hardly matters who wears the purple. The mine remains, and so do we, forgotten by Rome until they need more silver for their wars.",
+          "requirements": { "relationshipLevel": "Trusted", "storyBeats": ["emperor_frontier"] }
+        }
+      ]
+    },
+    {
+      "id": "medicus",
+      "name": "Atticus",
+      "role": "Mine Medicus",
+      "description": "A former military medic now assigned to keep the slaves alive enough to work. Despite his circumstances, he maintains his healer's oath.",
+      "portrait": "medicus.png",
+      "relationshipLevel": "Neutral",
+      "dialogues": [
+        {
+          "id": "intro",
+          "text": "Another injured worker? Let me see. Hmm, not too deep. Hold still... There. Keep it clean, if that's even possible down here. Come back if it festers.",
+          "requirements": {}
+        },
+        {
+          "id": "medical_advice",
+          "text": "Prevention is better than treatment. Tear a strip from your tunic and wrap your hands before mining. Drink boiled water when possible. And that moss that grows near the water channels? It fights infection if you chew it.",
+          "requirements": { "relationshipLevel": "Friendly" }
+        },
+        {
+          "id": "plague_insights",
+          "text": "This plague is unlike anything I've seen. High fever, rash that turns to pustules, then the coughing of blood. Once those symptoms appear, few survive. Keep your distance from the sick and cover your mouth with damp cloth.",
+          "requirements": { "relationshipLevel": "Friendly", "storyBeats": ["plague_arrives"] }
+        },
+        {
+          "id": "philosophical_healing",
+          "text": "I served as a medic in the legions before being assigned here. The Emperor's stoic philosophy actually has medical merit. The mind affects the body. Those who maintain hope and purpose recover faster than those who surrender to despair.",
+          "requirements": { "relationshipLevel": "Trusted", "storyBeats": ["philosophical_text"] }
+        }
+      ]
+    }
+  ]
+}
