@@ -10,6 +10,7 @@
       <circle cx="85" cy="65" r="2" fill="black"/>
       <circle cx="115" cy="65" r="2" fill="black"/>
       <path d="M90,85 Q100,75 110,85" fill="transparent" stroke="#6d4c41" stroke-width="2"/>
-      <rect x="70" y="50" width="60" height="10" fill="#4e342e"/>
-      <rect x="85" y="40" width="30" height="10" fill="#4e342e"/>
+      <path d="M70,70 L130,70" fill="transparent" stroke="#6d4c41" stroke-width="2"/>
+      <rect x="90" y="100" width="20" height="60" fill="#bf360c"/>
+      <rect x="85" y="100" width="30" height="10" fill="#bf360c"/>
     </svg>

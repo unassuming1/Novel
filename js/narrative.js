@@ -1,15 +1,20 @@
-// narrative.js - Story progression and narrative elements
+// Enhanced narrative.js - Making narrative a central component of gameplay
 
 const Narrative = (function() {
     // Story progression state
     const state = {
         currentDay: 1,
         storyProgress: 0,
-        newsSystemUnlocked: false,
+        newsSystemUnlocked: true, // Changed to true by default to make narrative immediately available
         newsItems: [],
         journalEntries: [],
         unlockedStoryElements: [],
-        activeQuests: []
+        activeQuests: [],
+        currentNarrativeDisplay: null, // Track what's currently being displayed
+        narrativeQueue: [], // Queue for narrative elements to display
+        lastNarrativeUpdate: 0, // Track when we last updated the narrative display
+        narrativeUpdateInterval: 60000, // Update narrative display every minute (in ms)
+        narrativeVisible: true // Control visibility of narrative panel
     };
     
     // Story beats definitions - key narrative moments that unlock as the game progresses
@@ -19,114 +24,158 @@ const Narrative = (function() {
             title: 'Arrival at the Mine',
             content: 'You arrive at the silver mine, shackled and exhausted from the journey. The overseer assigns you to the upper tunnels - the easiest work, but also the least productive. "Don\'t die in your first week," he grunts. "It\'s a waste of good chains."',
             trigger: { type: 'immediate' },
-            unlocked: false
+            unlocked: false,
+            image: 'mine_entrance.svg'
         },
         {
             id: 'first_silver',
             title: 'First Silver',
             content: 'You extract your first pieces of silver ore. Your hands are already blistered, but there\'s a small sense of accomplishment. A veteran miner notices your technique and shakes his head. "You\'ll break your back that way. Here, like this." His small advice makes the work slightly more bearable.',
             trigger: { type: 'resource', resource: 'silver', amount: 10 },
-            unlocked: false
+            unlocked: false,
+            image: 'silver_ore.svg'
         },
         {
             id: 'grass_crown_news',
             title: 'News from the Frontier',
-            content: 'During the evening meal, you overhear guards talking about a general named Titus Aelius Gallus who has been awarded the grass crown - Rome\'s highest military honor - for his victory against the Marcomanni tribes. The soldiers speak of him with reverence, though one mutters that the victory came at a terrible cost.',
-            trigger: { type: 'resource', resource: 'silver', amount: 100 },
+            content: 'During the evening meal, you overhear guards talking about a general named Sulla who has been awarded the grass crown - Rome\'s highest military honor - for saving his legion from certain death. The soldiers speak of him with reverence, though one mutters that the victory came at a terrible cost.',
+            trigger: { type: 'resource', resource: 'silver', amount: 50 },
             unlocked: false,
-            addNews: true
+            addNews: true,
+            image: 'grass_crown.svg'
         },
         {
             id: 'overseer_story',
             title: 'The Overseer\'s Tale',
-            content: 'The mine overseer, loosened by wine, reveals he once served in the legions under General Titus. "Strictest commander I ever had," he says, "but fair. He wouldn\'t ask men to do what he wouldn\'t do himself. Saved my life at the Danube crossing." He falls silent, lost in memory, then barks at everyone to get back to work.',
-            trigger: { type: 'upgrade', upgradeId: 'overseer_favor' },
+            content: 'The mine overseer, loosened by wine, reveals he once served in the legions under General Sulla. "Strictest commander I ever had," he says, "but fair. He wouldn\'t ask men to do what he wouldn\'t do himself. Saved my life during a battle with the Samnites." He falls silent, lost in memory, then barks at everyone to get back to work.',
+            trigger: { type: 'resource', resource: 'silver', amount: 100 },
             unlocked: false,
-            addNews: true
+            addNews: true,
+            image: 'overseer.svg'
         },
         {
-            id: 'plague_rumors',
-            title: 'Whispers of Disease',
-            content: 'New slaves arrive at the mine, bringing rumors of a strange sickness spreading through the empire. "They say it came from the East with returning soldiers," one explains. "Whole villages emptied. They call it the Antonine Plague." The overseers order the new arrivals quarantined in the lower tunnels.',
-            trigger: { type: 'day', day: 10 },
+            id: 'political_rumors',
+            title: 'Political Whispers',
+            content: 'A new slave arrives who once served in a wealthy Roman household. He speaks of growing tensions in Rome\'s political circles. "Sulla\'s victories have made him popular with the people and the army, but the Senate fears his ambition. Some say he seeks to follow in the footsteps of Marius."',
+            trigger: { type: 'resource', resource: 'silver', amount: 200 },
             unlocked: false,
-            addNews: true
+            addNews: true,
+            image: 'roman_senate.svg'
         },
         {
-            id: 'supply_reduction',
-            title: 'Dwindling Supplies',
-            content: 'The regular supply wagon arrives half-empty. The driver explains that military requisitions have priority - General Titus\'s forces on the frontier need resources to hold back the barbarian tribes. Your food ration is cut by a third. "Empire\'s at war," shrugs the overseer. "We all make sacrifices."',
-            trigger: { type: 'day', day: 15 },
+            id: 'mithridates_war',
+            title: 'War in the East',
+            content: 'News arrives that Rome is now at war with King Mithridates of Pontus. The Senate has appointed Sulla to lead the campaign. "More silver will be needed for the war effort," announces the mine administrator. "Production quotas are doubled, effective immediately."',
+            trigger: { type: 'resource', resource: 'silver', amount: 500 },
             unlocked: false,
-            effects: { resourceRates: { food: -0.05 } },
-            addNews: true
+            addNews: true,
+            image: 'roman_legion.svg'
         },
         {
-            id: 'political_intrigue',
-            title: 'Political Machinations',
-            content: 'A visiting official brings gossip from Rome. Apparently, a senator named Lucius Priscus is questioning General Titus\'s victories, calling them "exaggerated" and "costly failures dressed as success." The mine administrator seems troubled. "Politics," he spits. "Priscus wants Titus\'s command for one of his own puppets."',
-            trigger: { type: 'day', day: 20 },
+            id: 'political_betrayal',
+            title: 'Political Betrayal',
+            content: 'A merchant brings shocking news: while Sulla prepared his army, his enemies in Rome stripped him of his command and gave it to Marius instead. The mine overseer spits on the ground. "Politics! The man saves Rome, and this is his reward?"',
+            trigger: { type: 'resource', resource: 'silver', amount: 1000 },
             unlocked: false,
-            addNews: true
+            addNews: true,
+            image: 'betrayal.svg'
         },
         {
-            id: 'winter_hardship',
-            title: 'Harsh Winter',
-            content: 'The winter turns brutal. Even deep in the mines, the cold seeps through. You hear that on the frontier, the Danube has frozen solid, allowing Marcomanni raiders to cross directly into Roman territory. General Titus\'s forces are fighting in waist-deep snow. In the mine, three slaves freeze to death in the outer tunnels overnight.',
-            trigger: { type: 'day', day: 30 },
+            id: 'march_on_rome',
+            title: 'March on Rome',
+            content: 'The mine falls silent as unprecedented news spreads: Sulla has marched his legions on Rome itself - the first Roman general to turn his army against the Republic. They say he wears his grass crown as he leads his men into the city. "Civil war," mutters the overseer. "Gods help us all."',
+            trigger: { type: 'resource', resource: 'silver', amount: 2000 },
             unlocked: false,
-            effects: { resourceRates: { health: -0.1 } },
-            addNews: true
+            addNews: true,
+            image: 'rome_march.svg'
         },
         {
-            id: 'plague_arrives',
-            title: 'The Plague Reaches the Mine',
-            content: 'The Antonine Plague arrives with a new shipment of slaves. Within days, a dozen miners show symptoms - high fever, rash, bloody cough. The sick are isolated in an abandoned tunnel, but it\'s clear containment is failing. The overseer looks grim. "Same on the frontier," he says. "General Titus lost a third of his men, not to swords but to this invisible enemy."',
-            trigger: { type: 'day', day: 40 },
+            id: 'sulla_dictator',
+            title: 'Dictator of Rome',
+            content: 'Word reaches the mine that Sulla has been named Dictator of Rome with unlimited power to reform the Republic. The mine administrator announces that production must increase to pay for the new regime. "The Dictator remembers those who serve him well," he adds meaningfully.',
+            trigger: { type: 'resource', resource: 'silver', amount: 5000 },
             unlocked: false,
-            effects: { resourceRates: { health: -0.2 } },
-            addNews: true
+            addNews: true,
+            image: 'dictator.svg'
         },
         {
-            id: 'emperor_frontier',
-            title: 'The Emperor at the Front',
-            content: 'Remarkable news arrives: Emperor Marcus Aurelius himself has traveled to the Danube frontier to support General Titus. "Never happened in my lifetime," marvels an old slave. "An emperor at the battlefront." The guards discuss what this means - some think it shows the dire situation, others believe it demonstrates the Emperor\'s faith in Titus.',
-            trigger: { type: 'day', day: 50 },
+            id: 'proscriptions',
+            title: 'The Proscriptions',
+            content: 'Dark tales filter down to the mines about Sulla\'s "proscriptions" - lists of enemies who can be killed on sight, their property seized. Many wealthy Romans have been executed, their assets claimed for the state treasury. Even in the depths of the mine, people speak Sulla\'s name in whispers now.',
+            trigger: { type: 'resource', resource: 'silver', amount: 10000 },
             unlocked: false,
-            addNews: true
+            addNews: true,
+            image: 'proscriptions.svg'
         },
         {
-            id: 'philosophical_text',
-            title: 'The Emperor\'s Wisdom',
-            content: 'A slave who serves in the administrator\'s house smuggles in scraps of parchment - copied fragments from a text the Emperor is writing. "Meditations," he calls them. The philosophical passages speak of enduring hardship, finding inner tranquility amid chaos, and the equality of all men\'s souls. You hide these treasured words beneath your sleeping mat.',
-            trigger: { type: 'resource', resource: 'knowledge', amount: 10 },
+            id: 'constitutional_reforms',
+            title: 'Constitutional Reforms',
+            content: 'News arrives that Sulla is using his power to reform Rome\'s government, strengthening the Senate and limiting the power of the common people. "He claims he\'s saving the Republic from itself," explains a literate slave who reads proclamations. "Some call him a tyrant, others a savior."',
+            trigger: { type: 'resource', resource: 'silver', amount: 20000 },
             unlocked: false,
-            effects: { resources: { knowledge: 5 } },
-            addNews: true
+            addNews: true,
+            image: 'reforms.svg'
         },
         {
-            id: 'final_battle',
-            title: 'The Decisive Battle',
-            content: 'Word spreads like wildfire through the mine: General Titus has led a desperate stand against the largest Marcomanni force yet assembled. Against overwhelming odds, the Romans held their position on the frozen Danube. The battle lasted two days, and though casualties were severe, the barbarian alliance has shattered. For the first time in months, there\'s hope that the frontier will hold.',
-            trigger: { type: 'day', day: 60 },
+            id: 'retirement',
+            title: 'Unexpected Retirement',
+            content: 'Astonishing news spreads through the empire: after achieving absolute power, Sulla has voluntarily stepped down as Dictator and retired to his country estate. "They say he still wears his grass crown at public appearances," remarks the overseer. "A reminder of where his power began."',
+            trigger: { type: 'resource', resource: 'silver', amount: 50000 },
             unlocked: false,
-            addNews: true
+            addNews: true,
+            image: 'retirement.svg'
         },
         {
-            id: 'emperor_death',
-            title: 'The Emperor\'s Passing',
-            content: 'Solemn news arrives from the frontier: Emperor Marcus Aurelius has died in camp, with General Titus at his bedside. The empire is in mourning. In the mine, even the overseers seem subdued. Work is halted for one day out of respect - an unprecedented occurrence. Rumors already swirl about the new Emperor Commodus and what his reign will bring.',
-            trigger: { type: 'day', day: 70 },
+            id: 'death_of_sulla',
+            title: 'Death of a Dictator',
+            content: 'Word reaches the mines that Sulla has died. They say he requested that his epitaph read: "No friend ever served me, and no enemy ever wronged me, whom I have not repaid in full." The Republic he sought to save continues, though forever changed by his actions.',
+            trigger: { type: 'resource', resource: 'silver', amount: 100000 },
             unlocked: false,
-            addNews: true
+            addNews: true,
+            image: 'funeral.svg'
         },
         {
-            id: 'new_dawn',
-            title: 'Changing Times',
-            content: 'The first official proclamation from Emperor Commodus arrives at the mine. Policies are changing - military focus shifting away from the frontier, new administrators appointed. The mine overseer who served under Titus is reassigned. Before leaving, he tells you, "Titus said the grass crown was both his greatest honor and heaviest burden. I never understood until now." The empire is entering a new era, for better or worse.',
-            trigger: { type: 'day', day: 80 },
+            id: 'legacy',
+            title: 'Legacy of the Grass Crown',
+            content: 'As you toil in the mines, you reflect on Sulla\'s rise and fall. From a simple grass crown on the battlefield to absolute power and back to private life. Perhaps there\'s a lesson there about power, ambition, and the choices we make with what little freedom we have.',
+            trigger: { type: 'resource', resource: 'silver', amount: 200000 },
             unlocked: false,
-            addNews: true
+            addNews: true,
+            image: 'legacy.svg'
+        }
+    ];
+    
+    // Background stories that provide context and atmosphere
+    const backgroundStories = [
+        {
+            id: 'mine_life_1',
+            title: 'Life in the Mines',
+            content: 'The silver mines are a world unto themselves. In the deeper tunnels, some slaves haven\'t seen daylight in years. They develop pale, almost translucent skin and eyes sensitive to even the dim lamplight. Veterans say you can tell how long someone has been here by how they react to the mention of the sun.',
+            image: 'deep_mine.svg'
+        },
+        {
+            id: 'roman_politics_1',
+            title: 'Politics of Rome',
+            content: 'Even in the mines, echoes of Rome\'s political struggles reach you. The optimates and populares - conservatives and reformers - battle for control of the Republic. Generals like Sulla and Marius rise to prominence through military success, their ambitions extending beyond the battlefield.',
+            image: 'roman_politics.svg'
+        },
+        {
+            id: 'grass_crown_meaning',
+            title: 'The Grass Crown',
+            content: 'The corona graminea - the grass crown - is Rome\'s highest military decoration, awarded only to a commander who saves an entire legion from destruction. Made from grasses and wildflowers collected from the battlefield itself, it is considered more honorable than crowns of gold or silver.',
+            image: 'grass_crown_detail.svg'
+        },
+        {
+            id: 'silver_importance',
+            title: 'Silver and Empire',
+            content: 'Rome\'s hunger for silver is insatiable. The denarius, the standard silver coin, finances the legions that expand and defend the empire. Each swing of your pick contributes to this vast machine of conquest and governance, though you\'ll never hold the fruits of your labor.',
+            image: 'denarius.svg'
+        },
+        {
+            id: 'slave_solidarity',
+            title: 'Bonds of Hardship',
+            content: 'Despite the brutal conditions, small kindnesses exist among the mine slaves. An extra sip of water shared, a warning whispered about an unstable tunnel, a hand offered in the darkness when someone stumbles. These tiny moments of humanity are treasured all the more for their rarity.',
+            image: 'slaves.svg'
         }
     ];
     
@@ -135,61 +184,65 @@ const Narrative = (function() {
         {
             id: 'veteran_memories',
             title: 'Veteran\'s Memories',
-            description: 'The old veteran who served under General Titus seems willing to share stories. Gain his trust to learn more about the frontier wars.',
-            requirements: { characters: ['overseer'], favor: 3 },
+            description: 'The old veteran who served under General Sulla seems willing to share stories. Gain his trust to learn more about the frontier wars.',
+            requirements: { favor: 3 },
             rewards: { knowledge: 5, favor: 2 },
             steps: [
                 { description: 'Bring the veteran extra water rations', cost: { water: 5 } },
-                { description: 'Listen to his stories of the Danube campaigns', time: 2 },
+                { description: 'Listen to his stories of the campaigns', time: 2 },
                 { description: 'Find a small token to remind him of his service', special: 'find_token' }
             ],
             complete: false,
             active: false,
-            currentStep: 0
+            currentStep: 0,
+            image: 'veteran.svg'
         },
         {
-            id: 'plague_medicine',
-            title: 'Healing Hands',
-            description: 'With the plague spreading, any medical knowledge is valuable. Learn basic treatments to help yourself and others.',
-            requirements: { storyBeats: ['plague_arrives'], knowledge: 5 },
-            rewards: { knowledge: 10, health: 20, favor: 5 },
+            id: 'secret_message',
+            title: 'Message from Rome',
+            description: 'A new slave claims to have information about Sulla\'s actions in Rome that could be valuable.',
+            requirements: { knowledge: 5 },
+            rewards: { knowledge: 10, silver: 50 },
             steps: [
-                { description: 'Collect medicinal herbs from around the mine', time: 3 },
-                { description: 'Learn treatment methods from the mine\'s medic', cost: { silver: 200 } },
-                { description: 'Treat three sick miners', cost: { food: 10, water: 15 } }
+                { description: 'Gain the new slave\'s trust', cost: { food: 3 } },
+                { description: 'Create a distraction for the guards', time: 1 },
+                { description: 'Decode the hidden message', special: 'decode_message' }
             ],
             complete: false,
             active: false,
-            currentStep: 0
-        },
-        {
-            id: 'imperial_wisdom',
-            title: 'Words of Marcus Aurelius',
-            description: 'The Emperor\'s philosophical writings offer both wisdom and comfort in these harsh times.',
-            requirements: { storyBeats: ['philosophical_text'], knowledge: 8 },
-            rewards: { knowledge: 15, health: 10 },
-            steps: [
-                { description: 'Collect more fragments of the Emperor\'s writings', special: 'find_writings' },
-                { description: 'Study the philosophical concepts', time: 5 },
-                { description: 'Apply the stoic principles to your daily work', special: 'practice_stoicism' }
-            ],
-            complete: false,
-            active: false,
-            currentStep: 0
+            currentStep: 0,
+            image: 'message.svg'
         }
     ];
     
     // Initialize narrative system
     function init() {
-        // Trigger immediate story beats
-        checkStoryProgression();
+        // Unlock immediate story beats
+        checkStoryBeats();
+        
+        // Add initial journal entry
+        addJournalEntry({
+            title: 'First Day in the Mines',
+            content: 'The darkness is absolute here, broken only by flickering oil lamps. The air is thick with dust that coats the lungs. I must find a way to survive this place.'
+        });
+        
+        // Set up narrative update interval
+        setInterval(updateNarrativeDisplay, 10000); // Check for narrative updates every 10 seconds
+        
+        // Queue initial background story
+        queueBackgroundStory();
     }
     
-    // Check for story progression
+    // Check for narrative progression
     function checkProgression() {
         checkStoryBeats();
         checkQuestAvailability();
         updateActiveQuests();
+        
+        // Periodically queue background stories
+        if (Math.random() < 0.1) { // 10% chance each check
+            queueBackgroundStory();
+        }
     }
     
     // Check if any story beats should be unlocked
@@ -224,41 +277,133 @@ const Narrative = (function() {
     // Unlock a story beat
     function unlockStoryBeat(beat) {
         beat.unlocked = true;
+        state.unlockedStoryElements.push(beat.id);
         state.storyProgress++;
         
-        // Add to journal
-        addJournalEntry(beat.title, beat.content);
-        
-        // Add to news if applicable
-        if (beat.addNews && state.newsSystemUnlocked) {
-            addNewsItem(beat.title, beat.content);
+        // Add to news feed if applicable
+        if (beat.addNews) {
+            addNewsItem({
+                title: beat.title,
+                content: beat.content,
+                image: beat.image
+            });
         }
         
-        // Apply effects if any
+        // Add to journal
+        addJournalEntry({
+            title: beat.title,
+            content: beat.content,
+            image: beat.image
+        });
+        
+        // Queue for display in narrative panel
+        queueNarrativeElement({
+            type: 'story',
+            title: beat.title,
+            content: beat.content,
+            image: beat.image
+        });
+        
+        // Apply any effects
         if (beat.effects) {
             applyStoryEffects(beat.effects);
         }
         
-        // Add to unlocked story elements
-        state.unlockedStoryElements.push(beat.id);
-        
-        // Show notification
-        UI.showNotification(`New journal entry: ${beat.title}`, 'story');
+        // Trigger UI update
+        UI.updateNarrativeDisplay();
+        UI.showNotification(`New story: ${beat.title}`);
     }
     
-    // Apply story effects
-    function applyStoryEffects(effects) {
-        if (effects.resources) {
-            for (const [resource, amount] of Object.entries(effects.resources)) {
-                Resources.add(resource, amount);
+    // Queue a narrative element for display
+    function queueNarrativeElement(element) {
+        state.narrativeQueue.push(element);
+        
+        // If nothing is currently displayed, show this immediately
+        if (!state.currentNarrativeDisplay) {
+            updateNarrativeDisplay();
+        }
+    }
+    
+    // Update the narrative display
+    function updateNarrativeDisplay() {
+        const now = Date.now();
+        
+        // If something is currently displayed, check if it's time to change
+        if (state.currentNarrativeDisplay) {
+            // Keep each narrative element displayed for at least 60 seconds
+            if (now - state.lastNarrativeUpdate < state.narrativeUpdateInterval) {
+                return;
             }
         }
         
-        if (effects.resourceRates) {
-            for (const [resource, rate] of Object.entries(effects.resourceRates)) {
-                Resources.setRate(resource, Resources.getRate(resource) + rate);
+        // If we have queued narrative elements, display the next one
+        if (state.narrativeQueue.length > 0) {
+            state.currentNarrativeDisplay = state.narrativeQueue.shift();
+            state.lastNarrativeUpdate = now;
+            
+            // Update UI
+            UI.updateNarrativeDisplay(state.currentNarrativeDisplay);
+        } 
+        // If queue is empty but we've been showing the same thing for a while, show a random background story
+        else if (now - state.lastNarrativeUpdate > state.narrativeUpdateInterval * 3) {
+            queueBackgroundStory();
+            if (state.narrativeQueue.length > 0) {
+                state.currentNarrativeDisplay = state.narrativeQueue.shift();
+                state.lastNarrativeUpdate = now;
+                
+                // Update UI
+                UI.updateNarrativeDisplay(state.currentNarrativeDisplay);
             }
         }
+    }
+    
+    // Queue a random background story
+    function queueBackgroundStory() {
+        if (backgroundStories.length === 0) return;
+        
+        const randomIndex = Math.floor(Math.random() * backgroundStories.length);
+        const story = backgroundStories[randomIndex];
+        
+        queueNarrativeElement({
+            type: 'background',
+            title: story.title,
+            content: story.content,
+            image: story.image
+        });
+    }
+    
+    // Add a news item
+    function addNewsItem(item) {
+        // Ensure news system is unlocked
+        state.newsSystemUnlocked = true;
+        
+        // Add timestamp
+        item.timestamp = Date.now();
+        item.day = getGameDay();
+        
+        // Add to news array
+        state.newsItems.unshift(item); // Add to beginning of array
+        
+        // Limit news items to prevent array from growing too large
+        if (state.newsItems.length > 50) {
+            state.newsItems.pop(); // Remove oldest
+        }
+        
+        // Update UI
+        UI.updateNewsFeed();
+    }
+    
+    // Add a journal entry
+    function addJournalEntry(entry) {
+        // Add timestamp
+        entry.timestamp = Date.now();
+        entry.day = getGameDay();
+        
+        // Add to journal array
+        state.journalEntries.unshift(entry); // Add to beginning of array
+        
+        // Update UI
+        UI.updateJournal();
     }
     
     // Check for available quests
@@ -266,43 +411,32 @@ const Narrative = (function() {
         quests.forEach(quest => {
             if (quest.complete || quest.active) return;
             
-            let available = true;
+            // Check if requirements are met
+            let requirementsMet = true;
             
-            // Check requirements
             if (quest.requirements) {
-                // Check character requirements
-                if (quest.requirements.characters) {
-                    for (const charId of quest.requirements.characters) {
-                        const character = Characters.getCharacter(charId);
-                        if (!character || !character.unlocked) {
-                            available = false;
-                            break;
-                        }
-                    }
-                }
-                
                 // Check favor requirement
                 if (quest.requirements.favor && Resources.get('favor') < quest.requirements.favor) {
-                    available = false;
+                    requirementsMet = false;
                 }
                 
                 // Check knowledge requirement
                 if (quest.requirements.knowledge && Resources.get('knowledge') < quest.requirements.knowledge) {
-                    available = false;
+                    requirementsMet = false;
                 }
                 
                 // Check story beat requirements
                 if (quest.requirements.storyBeats) {
                     for (const beatId of quest.requirements.storyBeats) {
                         if (!state.unlockedStoryElements.includes(beatId)) {
-                            available = false;
+                            requirementsMet = false;
                             break;
                         }
                     }
                 }
             }
             
-            if (available && !quest.active) {
+            if (requirementsMet) {
                 activateQuest(quest);
             }
         });
@@ -313,35 +447,70 @@ const Narrative = (function() {
         quest.active = true;
         state.activeQuests.push(quest.id);
         
-        // Add journal entry
-        addJournalEntry(`New Quest: ${quest.title}`, quest.description);
+        // Add to journal
+        addJournalEntry({
+            title: `New Quest: ${quest.title}`,
+            content: quest.description,
+            image: quest.image
+        });
         
-        // Show notification
-        UI.showNotification(`New quest available: ${quest.title}`, 'quest');
+        // Queue for display in narrative panel
+        queueNarrativeElement({
+            type: 'quest',
+            title: `New Quest: ${quest.title}`,
+            content: quest.description,
+            image: quest.image
+        });
+        
+        // Update UI
+        UI.updateQuestDisplay();
+        UI.showNotification(`New quest available: ${quest.title}`);
     }
     
     // Update active quests
     function updateActiveQuests() {
-        // This would check progress on active quests
-        // For now, just a placeholder
+        state.activeQuests.forEach(questId => {
+            const quest = quests.find(q => q.id === questId);
+            if (!quest || quest.complete) return;
+            
+            // Check if current step can be completed
+            const currentStep = quest.steps[quest.currentStep];
+            
+            if (currentStep.cost) {
+                // Check if player has resources for this step
+                let canComplete = true;
+                for (const [resource, amount] of Object.entries(currentStep.cost)) {
+                    if (Resources.get(resource) < amount) {
+                        canComplete = false;
+                        break;
+                    }
+                }
+                
+                if (canComplete) {
+                    // Mark step as completable in UI
+                    UI.updateQuestStepStatus(quest.id, quest.currentStep, 'completable');
+                }
+            } else if (currentStep.time) {
+                // Time-based steps are handled by the UI
+            } else if (currentStep.special) {
+                // Special steps are handled by specific functions
+                // These might be triggered by events or specific actions
+            }
+        });
     }
     
-    // Advance a quest step
-    function advanceQuest(questId) {
+    // Complete a quest step
+    function completeQuestStep(questId) {
         const quest = quests.find(q => q.id === questId);
-        
-        if (!quest || !quest.active || quest.complete) {
-            return false;
-        }
+        if (!quest || quest.complete) return false;
         
         const currentStep = quest.steps[quest.currentStep];
         
-        // Check if step can be completed
+        // Deduct resources if needed
         if (currentStep.cost) {
-            if (!Resources.canAfford(currentStep.cost)) {
-                return false;
+            for (const [resource, amount] of Object.entries(currentStep.cost)) {
+                Resources.subtract(resource, amount);
             }
-            Resources.pay(currentStep.cost);
         }
         
         // Advance to next step
@@ -352,11 +521,15 @@ const Narrative = (function() {
             completeQuest(quest);
         } else {
             // Update journal
-            addJournalEntry(`Quest Update: ${quest.title}`, 
-                `Completed: ${currentStep.description}\nNext: ${quest.steps[quest.currentStep].description}`);
+            addJournalEntry({
+                title: `Quest Update: ${quest.title}`,
+                content: `Step completed: ${currentStep.description}`,
+                image: quest.image
+            });
             
-            // Show notification
-            UI.showNotification(`Quest step completed: ${quest.title}`, 'quest');
+            // Update UI
+            UI.updateQuestDisplay();
+            UI.showNotification(`Quest step completed: ${currentStep.description}`);
         }
         
         return true;
@@ -380,183 +553,140 @@ const Narrative = (function() {
             }
         }
         
-        // Add journal entry
-        addJournalEntry(`Quest Completed: ${quest.title}`, 
-            `You have completed the quest "${quest.title}". ${Object.entries(quest.rewards).map(([resource, amount]) => 
-                `Gained ${amount} ${Resources.getResourceInfo(resource).name}`).join(', ')}`);
-        
-        // Show notification
-        UI.showNotification(`Quest completed: ${quest.title}`, 'quest');
-    }
-    
-    // Add a journal entry
-    function addJournalEntry(title, content) {
-        const entry = {
-            id: generateId(),
-            title,
-            content,
-            timestamp: Date.now(),
-            gameDay: getGameDay()
-        };
-        
-        state.journalEntries.push(entry);
-    }
-    
-    // Add a news item
-    function addNewsItem(title, content) {
-        if (!state.newsSystemUnlocked) return;
-        
-        const newsItem = {
-            id: generateId(),
-            title,
-            content,
-            timestamp: Date.now(),
-            gameDay: getGameDay(),
-            read: false
-        };
-        
-        state.newsItems.push(newsItem);
-    }
-    
-    // Unlock the news system
-    function unlockNewsSystem() {
-        state.newsSystemUnlocked = true;
-        
-        // Add initial news items for already unlocked story beats
-        storyBeats.forEach(beat => {
-            if (beat.unlocked && beat.addNews) {
-                addNewsItem(beat.title, beat.content);
-            }
+        // Add to journal
+        addJournalEntry({
+            title: `Quest Completed: ${quest.title}`,
+            content: `You have completed the quest and received your rewards.`,
+            image: quest.image
         });
         
-        // Show notification
-        UI.showNotification('You can now receive news from the frontier!', 'system');
+        // Queue for display in narrative panel
+        queueNarrativeElement({
+            type: 'quest_complete',
+            title: `Quest Completed: ${quest.title}`,
+            content: `You have successfully completed this quest and gained new insights about Sulla and the Grass Crown.`,
+            image: quest.image
+        });
+        
+        // Update UI
+        UI.updateQuestDisplay();
+        UI.showNotification(`Quest completed: ${quest.title}`);
     }
     
-    // Trigger a random story bit
-    function triggerRandomStoryBit() {
-        // This would be called when the player finds something special
-        // For now, just a placeholder that adds a small journal entry
-        
-        const storyBits = [
-            {
-                title: 'A Moment of Reflection',
-                content: 'During a brief rest, you notice sunlight filtering through a crack in the ceiling. For just a moment, the harsh reality of the mine fades, and you remember what it was like to be free.'
-            },
-            {
-                title: 'Overheard Conversation',
-                content: 'Guards talking nearby mention General Titus\'s name. "They say he sleeps in the same conditions as his men," one says. "No special tent or meals." The other scoffs, "That\'s why soldiers love him and politicians hate him."'
-            },
-            {
-                title: 'Hidden Message',
-                content: 'You find a message scratched into the mine wall, hidden behind a loose rock: "Strength is not in the body, but in the spirit. -M"'
-            },
-            {
-                title: 'The Old Slave\'s Wisdom',
-                content: 'An elderly slave shares his secret for survival: "Find one beautiful thing each day, no matter how small. A drop of water, a memory, even just a deeper breath. That\'s how you keep your soul alive."'
+    // Apply effects from story beats
+    function applyStoryEffects(effects) {
+        // Apply resource rate changes
+        if (effects.resourceRates) {
+            for (const [resource, multiplier] of Object.entries(effects.resourceRates)) {
+                // This would need to be implemented in the Resources module
+                Resources.adjustRate(resource, multiplier);
             }
-        ];
+        }
         
-        const storyBit = randomElement(storyBits);
-        addJournalEntry(storyBit.title, storyBit.content);
-        
-        // Show notification
-        UI.showNotification(`New journal entry: ${storyBit.title}`, 'story');
+        // Apply one-time resource changes
+        if (effects.resources) {
+            for (const [resource, amount] of Object.entries(effects.resources)) {
+                Resources.add(resource, amount);
+            }
+        }
     }
     
     // Get current game day
     function getGameDay() {
-        return Math.floor(Game.getTimePlayed() / (24 * 60 * 60)) + 1;
+        return Math.floor(Game.getTimePlayed() / (60 * 60 * 24)) + 1; // Convert seconds to days
     }
     
-    // Generate a unique ID
-    function generateId() {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+    // Trigger a random story bit for variety
+    function triggerRandomStoryBit() {
+        const randomStories = [
+            "A guard mentions that Sulla's grass crown was woven from grasses and wildflowers from the battlefield where he saved his men.",
+            "You overhear that before his military success, Sulla lived a life of poverty despite his patrician birth.",
+            "Someone says that Sulla's rival Marius was once his commander and mentor before they became bitter enemies.",
+            "A merchant claims that Sulla has strange prophetic dreams that guide his military decisions.",
+            "There's a rumor that Sulla's face is marked with red blotches and scars, which some see as a sign of divine favor."
+        ];
+        
+        const randomStory = randomStories[Math.floor(Math.random() * randomStories.length)];
+        
+        // Add as a minor news item
+        addNewsItem({
+            title: "Rumor About Sulla",
+            content: randomStory,
+            image: "sulla_portrait.svg"
+        });
+        
+        // Queue for narrative display
+        queueNarrativeElement({
+            type: 'rumor',
+            title: "Rumor About Sulla",
+            content: randomStory,
+            image: "sulla_portrait.svg"
+        });
     }
     
-    // Get all journal entries
-    function getJournalEntries() {
-        return [...state.journalEntries];
+    // Toggle narrative visibility
+    function toggleNarrativeVisibility() {
+        state.narrativeVisible = !state.narrativeVisible;
+        UI.updateNarrativeVisibility(state.narrativeVisible);
+        return state.narrativeVisible;
     }
     
-    // Get all news items
-    function getNewsItems() {
-        return [...state.newsItems];
-    }
-    
-    // Get active quests
-    function getActiveQuests() {
-        return quests.filter(quest => quest.active);
-    }
-    
-    // Get narrative state for saving
+    // Get state for saving
     function getState() {
         return {
+            currentDay: state.currentDay,
             storyProgress: state.storyProgress,
             newsSystemUnlocked: state.newsSystemUnlocked,
             newsItems: state.newsItems,
             journalEntries: state.journalEntries,
             unlockedStoryElements: state.unlockedStoryElements,
             activeQuests: state.activeQuests,
-            storyBeats: storyBeats.map(beat => ({
-                id: beat.id,
-                unlocked: beat.unlocked
-            })),
-            quests: quests.map(quest => ({
-                id: quest.id,
-                active: quest.active,
-                complete: quest.complete,
-                currentStep: quest.currentStep
-            }))
+            narrativeVisible: state.narrativeVisible
         };
     }
     
-    // Load narrative state
+    // Load state
     function loadState(savedState) {
         if (!savedState) return;
         
+        state.currentDay = savedState.currentDay || 1;
         state.storyProgress = savedState.storyProgress || 0;
         state.newsSystemUnlocked = savedState.newsSystemUnlocked || false;
         state.newsItems = savedState.newsItems || [];
         state.journalEntries = savedState.journalEntries || [];
         state.unlockedStoryElements = savedState.unlockedStoryElements || [];
         state.activeQuests = savedState.activeQuests || [];
+        state.narrativeVisible = savedState.narrativeVisible !== undefined ? savedState.narrativeVisible : true;
         
-        // Restore story beats state
-        if (savedState.storyBeats) {
-            savedState.storyBeats.forEach(savedBeat => {
-                const beat = storyBeats.find(b => b.id === savedBeat.id);
-                if (beat) {
-                    beat.unlocked = savedBeat.unlocked;
-                }
-            });
-        }
+        // Mark story beats as unlocked
+        storyBeats.forEach(beat => {
+            beat.unlocked = state.unlockedStoryElements.includes(beat.id);
+        });
         
-        // Restore quests state
-        if (savedState.quests) {
-            savedState.quests.forEach(savedQuest => {
-                const quest = quests.find(q => q.id === savedQuest.id);
-                if (quest) {
-                    quest.active = savedQuest.active;
-                    quest.complete = savedQuest.complete;
-                    quest.currentStep = savedQuest.currentStep;
-                }
-            });
-        }
+        // Update quest status
+        quests.forEach(quest => {
+            const activeIndex = state.activeQuests.indexOf(quest.id);
+            quest.active = activeIndex !== -1;
+            
+            // We'd need additional saved state to track quest progress and completion
+        });
     }
     
     // Public API
     return {
         init,
         checkProgression,
-        addJournalEntry,
         addNewsItem,
-        unlockNewsSystem,
+        addJournalEntry,
+        getStoryProgress: () => state.storyProgress,
+        getNewsItems: () => state.newsItems,
+        getJournalEntries: () => state.journalEntries,
+        isNewsSystemUnlocked: () => state.newsSystemUnlocked,
+        completeQuestStep,
         triggerRandomStoryBit,
-        getJournalEntries,
-        getNewsItems,
-        getActiveQuests,
-        advanceQuest,
+        getCurrentNarrativeDisplay: () => state.currentNarrativeDisplay,
+        isNarrativeVisible: () => state.narrativeVisible,
+        toggleNarrativeVisibility,
         getState,
         loadState
     };

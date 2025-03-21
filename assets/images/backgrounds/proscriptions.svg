@@ -1,0 +1,13 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="200" height="200" fill="#f5f5f5"/>
+      <rect x="40" y="40" width="120" height="160" fill="#e0e0e0"/>
+      <path d="M50,60 L150,60" fill="transparent" stroke="#b71c1c" stroke-width="2"/>
+      <path d="M50,80 L150,80" fill="transparent" stroke="#b71c1c" stroke-width="2"/>
+      <path d="M50,100 L150,100" fill="transparent" stroke="#b71c1c" stroke-width="2"/>
+      <path d="M50,120 L150,120" fill="transparent" stroke="#b71c1c" stroke-width="2"/>
+      <path d="M50,140 L150,140" fill="transparent" stroke="#b71c1c" stroke-width="2"/>
+      <path d="M50,160 L150,160" fill="transparent" stroke="#b71c1c" stroke-width="2"/>
+      <path d="M50,180 L150,180" fill="transparent" stroke="#b71c1c" stroke-width="2"/>
+      <path d="M40,40 L160,40 L160,200 L40,200 Z" fill="transparent" stroke="#b71c1c" stroke-width="4"/>
+      <text x="100" y="30" font-family="Arial" font-size="16" text-anchor="middle" fill="#b71c1c">PROSCRIPTIO</text>
+    </svg>
